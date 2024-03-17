@@ -6,13 +6,7 @@ alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯа
 
 
 def encrypt(path_key: str, text_path: str, path: str) -> None:
-    """
-    implements the atbash cipher and writes data to a file
 
-    Parameters
-        text_path: the path to the file where the message is located
-        path: the path where the cipher will be written
-    """
     key = read_json(path_key)
     result = ''
     text = read_files(text_path)
@@ -27,13 +21,7 @@ def encrypt(path_key: str, text_path: str, path: str) -> None:
 
 
 def decrypt(path_key: str, path_encryption: str, path_decryption: str) -> None:
-    """
-    implements the atbash cipher and writes data to a file
 
-    Parameters
-        text_path: the path to the file where the message is located
-        path: the path where the cipher will be written
-    """
     key = read_json(path_key)
     result = ''
     text = read_files(path_encryption)
