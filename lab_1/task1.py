@@ -79,6 +79,7 @@ def key_json(key: str, path: str) -> None:
 
 
 if __name__ == "__main__":
+
     keys = "43521"
 
     key_json(keys, os.path.join('first_task', 'key.json'))
