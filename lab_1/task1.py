@@ -50,7 +50,8 @@ def decrypt(path_key: str, path_encryption: str, path_decryption: str) -> None:
 
 def key_json(key: str, path: str) -> None:
     """
-    Create a key to the text using the specified key value and write it to a json file as a dictionary
+    Create a key to the text using the transpose method for a given key
+    value and write it to a json file as a dictionary
 
     Parameters
         key: the values of the key that will be used to create a new one
