@@ -80,13 +80,15 @@ def key_json(key: str, path: str) -> None:
 
 
 if __name__ == "__main__":
+    try:
+        keys = "43521"
 
-    keys = "43521"
+        key_json(keys, os.path.join('first_task', 'key.json'))
 
-    key_json(keys, os.path.join('first_task', 'key.json'))
+        encrypt(os.path.join('first_task', 'key.json'), os.path.join('first_task', 'text_path.txt'),
+                os.path.join('first_task', 'encryption.txt'))
 
-    encrypt(os.path.join('first_task', 'key.json'), os.path.join('first_task', 'text_path.txt'),
-            os.path.join('first_task', 'encryption.txt'))
-
-    decrypt(os.path.join('first_task', 'key.json'), os.path.join('first_task', 'encryption.txt'),
-            os.path.join('first_task', 'decryption.txt'))
+        decrypt(os.path.join('first_task', 'key.json'), os.path.join('first_task', 'encryption.txt'),
+                os.path.join('first_task', 'decryption.txt'))
+    except Exception as e:
+        print(f"An error occurred during the main execution: {e}")

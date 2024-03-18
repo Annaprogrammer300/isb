@@ -43,9 +43,6 @@ def key_json(freq_path: str, path: str, data_path: str) -> None:
 
     for key_char, value_char in zip(key.keys(), alf.values()):
         result[key_char] = value_char
-
-    for key_char, value_char in zip(key.keys(), alf.values()):
-        result[key_char] = value_char
         found_key = None
         for k, v in alf.items():
             if v == value_char:
@@ -56,8 +53,13 @@ def key_json(freq_path: str, path: str, data_path: str) -> None:
 
 
 if __name__ == "__main__":
-    frequency_analysis(os.path.join('second_task', 'cod8.txt'), os.path.join('second_task', 'freq.json'))
-    key_json(os.path.join('second_task', 'freq.json'), os.path.join('second_task', 'key.json'),
-             os.path.join('second_task', 'data.json'))
-    encrypt(os.path.join('second_task', 'key.json'), os.path.join('second_task', 'cod8.txt'),
-            os.path.join('second_task', 'decryption.txt'))
+    try:
+        frequency_analysis(os.path.join('second_task', 'cod8.txt'), os.path.join('second_task', 'freq.json'))
+        key_json(os.path.join('second_task', 'freq.json'), os.path.join('second_task', 'key.json'),
+                 os.path.join('second_task', 'data.json'))
+        encrypt(os.path.join('second_task', 'key.json'), os.path.join('second_task', 'cod8.txt'),
+                os.path.join('second_task', 'decryption.txt'))
+        encrypt(os.path.join('second_task', 'text_key.json'), os.path.join('second_task', 'cod8.txt'),
+                os.path.join('second_task', 'text_decryption.txt'))
+    except Exception as e:
+        print(f"An error occurred: {e}")
