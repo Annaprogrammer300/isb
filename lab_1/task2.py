@@ -1,10 +1,8 @@
-import os
-
-from task1 import encrypt
+from task1 import cipher
 from works_files import *
 
 
-def frequency_analysis(text_path: str, path: str) -> None:
+def frequency_analysis(text_p: str, path: str) -> None:
     """
     Performs a frequency analysis of the text and writes it to the dictionary in another file
 
@@ -12,7 +10,7 @@ def frequency_analysis(text_path: str, path: str) -> None:
         text_path: the path to the file with the text to analyze
         path: the path to the file where the frequency analysis will be recorded
     """
-    text = read_files(text_path)
+    text = read_files(text_p)
     frequencies = {}
     total = len(text)
     for char in text:
@@ -26,7 +24,7 @@ def frequency_analysis(text_path: str, path: str) -> None:
     write_json(sort, path)
 
 
-def key_json(freq_path: str, path: str, data_path: str) -> None:
+def key_json(freq_p: str, path: str, data_p: str) -> None:
     """
     Create a key to the text based on statistical analysis of
     the text and data on frequently encountered characters and write
@@ -37,9 +35,9 @@ def key_json(freq_path: str, path: str, data_path: str) -> None:
         paths: the path where the key will be written
         data_path: the path from which character data is taken
     """
-    key = read_json(freq_path)
+    key = read_json(freq_p)
     result = {}
-    alf = read_json(data_path)
+    alf = read_json(data_p)
 
     for key_char, value_char in zip(key.keys(), alf.values()):
         result[key_char] = value_char
@@ -54,12 +52,18 @@ def key_json(freq_path: str, path: str, data_path: str) -> None:
 
 if __name__ == "__main__":
     try:
-        frequency_analysis(os.path.join('second_task', 'cod8.txt'), os.path.join('second_task', 'freq.json'))
-        key_json(os.path.join('second_task', 'freq.json'), os.path.join('second_task', 'key.json'),
-                 os.path.join('second_task', 'data.json'))
-        encrypt(os.path.join('second_task', 'key.json'), os.path.join('second_task', 'cod8.txt'),
-                os.path.join('second_task', 'decryption.txt'))
-        encrypt(os.path.join('second_task', 'text_key.json'), os.path.join('second_task', 'cod8.txt'),
-                os.path.join('second_task', 'text_decryption.txt'))
+        config = read_json("config.json")
+        text_path = config["text_path_task2"]
+        freq_path = config["key_freq_path_task2"]
+        key_path = config["key_path_task2"]
+        data_path = config["data_path_task2"]
+        decryption_key_path = config["text_key_path_task2"]
+        decryption_path = config["decryption_path_task2"]
+        text_decryption_path = config["text_decryption_path_task2"]
+
+        frequency_analysis(text_path, freq_path)
+        key_json(freq_path, key_path, data_path)
+        cipher(Mode.ENCRYPT, key_path, text_path, decryption_path)
+        cipher(Mode.ENCRYPT, decryption_key_path, text_path, text_decryption_path)
     except Exception as e:
         print(f"An error occurred: {e}")

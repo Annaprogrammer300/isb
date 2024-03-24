@@ -1,4 +1,10 @@
 import json
+from enum import Enum
+
+
+class Mode(Enum):
+    ENCRYPT = 1
+    DECRYPT = 2
 
 
 def read_files(path: str) -> str:
