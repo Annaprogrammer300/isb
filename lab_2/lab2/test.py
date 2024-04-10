@@ -5,6 +5,25 @@ from works_files import *
 from constants import *
 
 
+def tests(mode: Mode, text: str, text_write: str, seq_rand: str) -> None:
+    """
+    Redirects to the selected test for the sequence.
+
+    Parameters
+        mode: a Mode enumeration indicating the mode of operation
+        text: the path to the JSON file containing the binary sequence.
+        text_write: the path to write the result of the test.
+        seq_rand: the key in the dictionary to the binary sequence.
+    """
+    match mode:
+        case Mode.frequency:
+            frequency_test(text, text_write, seq_rand)
+        case Mode.same_bits:
+            same_bits_test(text, text_write, seq_rand)
+        case Mode.longest_sequence_in_block:
+            longest_sequence_in_block_test(text, text_write, seq_rand)
+
+
 def frequency_test(text: str, text_write: str, seq_rand: str) -> None:
     """
     Performs a frequency test on a binary sequence and writes the result to a file.

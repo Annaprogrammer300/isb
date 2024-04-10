@@ -1,4 +1,11 @@
 import json
+from enum import Enum
+
+
+class Mode(Enum):
+    frequency = 1
+    same_bits = 2
+    longest_sequence_in_block = 3
 
 
 def write_files(path: str, data: str) -> None:
@@ -10,7 +17,7 @@ def write_files(path: str, data: str) -> None:
         data: data to write to a file
     """
     try:
-        with open(path, "w", encoding='UTF-8') as file:
+        with open(path, "a", encoding='UTF-8') as file:
             file.write(data)
         print(f"The data has been successfully written to the file '{path}'.")
     except Exception as e:
