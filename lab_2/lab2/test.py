@@ -2,7 +2,9 @@ import math
 import mpmath
 
 from works_files import *
-from constants import *
+
+PI = {0: 0.2148, 1: 0.3672, 2: 0.2305, 3: 0.1875}
+MAX_LENGTH_BLOCK = 8
 
 
 def tests(mode: Mode, text: str, text_write: str, seq_rand: str) -> None:
