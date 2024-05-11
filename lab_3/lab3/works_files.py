@@ -48,6 +48,7 @@ def read_bytes(file_path: str) -> bytes:
 
     Parameters
         file_path: The path to the file to be read.
+
     Returns
         The contents of the file in binary format.
     """
@@ -79,35 +80,38 @@ def write_bytes(file_path: str, bytes_text: bytes) -> None:
         print(f"An error occurred while writing the file: {str(e)}")
 
 
-def serialize_symmetric_key(self, path: str) -> None:
+def read_config(config_file) -> dict:
     """
-           Serializes the encryption key to a file.
+   Reads the configuration config from the specified file.
 
-           Parameters
-               path: The path to the file where the encryption key will be saved.
-           """
+   Parameters:
+        config_file : The path to the config file.
+
+   Returns:
+        dict: The configuration config loaded from the file.
+   """
+
     try:
-        with open(path, 'wb') as key_file:
-            key_file.write(self.key)
-        print(f"The symmetric key has been successfully written to the file '{path}'.")
+        with open(config_file, "r") as file:
+            settings = json.load(file)
+        return settings
     except FileNotFoundError:
-        print("The file was not found")
+        print(f"Settings file '{config_file}' not found.")
     except Exception as e:
-        print(f"An error occurred while writing the file: {str(e)}")
+        print(f"Error reading settings file: {str(e)}")
 
 
-def deserialize_symmetric_key(self, file_name: str) -> None:
+def write_config(config_file, config) -> None:
     """
-           Deserializes the encryption key from a file.
-           Parameters
-               file_name: The path to the file containing the encryption key.
-           """
-    with open(file_name, "rb") as file:
-        self.key = file.read()
+    Writes the configuration config to the specified file.
+
+    Parameters:
+        config_file : The path to the config file.
+        config : The configuration config to be written to the file.
+
+    """
     try:
-        with open(file_name, "rb") as file:
-            self.key = file.read()
-    except FileNotFoundError:
-        print("The file was not found")
+        with open(config_file, "w") as file:
+            json.dump(config, file)
     except Exception as e:
-        print(f"An error occurred while reading the file: {str(e)}")
+        print(f"Error writing settings file: {str(e)}")
