@@ -14,6 +14,14 @@ class SerializeMethodAsymmetric(Enum):
     DESERIALIZE_PRIVATE_KEY = 4
 
 
+class Action(Enum):
+    GENERATE_KEYS = 1
+    ENCRYPT = 2
+    DECRYPT = 3
+    ENCRYPT_SYMMETRIC_KEY = 4
+    DECRYPT_SYMMETRIC_KEY = 5
+
+
 def write_files(path: str, data: str) -> None:
     """
     A function for writing data to a file.
