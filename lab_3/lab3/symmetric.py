@@ -3,7 +3,7 @@ import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 from works_files import write_files, SerializeMethod, write_bytes, read_bytes
-from serialize_and_deserialize import serialize_symmetric_key,deserialize_symmetric_key
+from serialize_and_deserialize import serialize_symmetric_key, deserialize_symmetric_key
 
 
 class SymmetricEncryption:
@@ -39,7 +39,7 @@ class SymmetricEncryption:
             case SerializeMethod.SERIALIZE_SYMMETRIC_KEY:
                 serialize_symmetric_key(file_name, self.key)
             case SerializeMethod.DESERIALIZE_SYMMETRIC_KEY:
-                deserialize_symmetric_key(file_name, self.key)
+                self.key = deserialize_symmetric_key(file_name)
 
     def encrypt(self, path: str, encrypted_path: str) -> bytes:
         """
@@ -52,7 +52,7 @@ class SymmetricEncryption:
             The encrypted data.
         """
         text = read_bytes(path)
-        iv = os.urandom(16)
+        iv = os.urandom(8)
         cipher = Cipher(algorithms.IDEA(self.key), modes.CFB(iv))
         encryptor = cipher.encryptor()
         adder = padding.ANSIX923(32).padder()
@@ -72,13 +72,11 @@ class SymmetricEncryption:
             The decrypted data as a string.
         """
         encrypted_text = read_bytes(encrypted_path)
-        iv = encrypted_text[:16]
-        cipher_text = encrypted_text[16:]
+        iv = encrypted_text[:8]
+        cipher_text = encrypted_text[8:]
         cipher = Cipher(algorithms.IDEA(self.key), modes.CFB(iv))
         decrypt = cipher.decryptor()
-        decrypt_text = decrypt.update(cipher_text) + decrypt.finalize()
-        unpacker = padding.ANSIX923(128).unpadder()
-        unpacker_text = unpacker.update(decrypt_text) + unpacker.finalize()
+        unpacker_text = decrypt.update(cipher_text) + decrypt.finalize()
         decrypt_text = unpacker_text.decode('UTF-8')
         write_files(decrypted_path, decrypt_text)
         return decrypt_text

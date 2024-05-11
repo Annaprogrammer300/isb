@@ -7,6 +7,13 @@ class SerializeMethod(Enum):
     DESERIALIZE_SYMMETRIC_KEY = 2
 
 
+class SerializeMethodAsymmetric(Enum):
+    SERIALIZE_PUBLIC_KEY = 1
+    SERIALIZE_PRIVATE_KEY = 2
+    DESERIALIZE_PUBLIC_KEY = 3
+    DESERIALIZE_PRIVATE_KEY = 4
+
+
 def write_files(path: str, data: str) -> None:
     """
     A function for writing data to a file.
@@ -51,6 +58,7 @@ def read_bytes(file_path: str) -> bytes:
 
     Returns
         The contents of the file in binary format.
+        :rtype: object
     """
     try:
         with open(file_path, "rb") as file:
@@ -93,12 +101,12 @@ def read_config(config_file) -> dict:
 
     try:
         with open(config_file, "r") as file:
-            settings = json.load(file)
-        return settings
+            config = json.load(file)
+        return config
     except FileNotFoundError:
-        print(f"Settings file '{config_file}' not found.")
+        print(f"config file '{config_file}' not found.")
     except Exception as e:
-        print(f"Error reading settings file: {str(e)}")
+        print(f"Error reading config file: {str(e)}")
 
 
 def write_config(config_file, config) -> None:
@@ -114,4 +122,4 @@ def write_config(config_file, config) -> None:
         with open(config_file, "w") as file:
             json.dump(config, file)
     except Exception as e:
-        print(f"Error writing settings file: {str(e)}")
+        print(f"Error writing config file: {str(e)}")
