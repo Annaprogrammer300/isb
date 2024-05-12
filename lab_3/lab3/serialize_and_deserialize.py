@@ -9,6 +9,7 @@ def serialize_symmetric_key(path: str, key: bytes) -> None:
 
     Parameters
         path: The path to the file where the encryption key will be saved.
+        key: The symmetric key to be serialized.
     """
     try:
         with open(path, 'wb') as key_file:
@@ -26,6 +27,9 @@ def deserialize_symmetric_key(file_name: str) -> bytes:
 
     Parameters
         file_name: The path to the file containing the encryption key.
+
+    Returns:
+        The deserialized symmetric key.
     """
     try:
         with open(file_name, "rb") as file:

@@ -1,7 +1,7 @@
 {
-  "data_file": "data/text.txt",
-  "encrypted_file": "data/encrypted_text.txt",
-  "decrypted_file": "data/decrypted_text.txt",
+  "data_text": "data/text.txt",
+  "encrypted_text": "data/encrypted_text.txt",
+  "decrypted_text": "data/decrypted_text.txt",
   "symmetric_key": "key/symmetric.txt",
   "encrypted_symmetric_key": "key/encrypted_symmetric_key.txt",
   "public_key": "key/public_key.pem",

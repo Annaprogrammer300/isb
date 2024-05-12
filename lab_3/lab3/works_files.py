@@ -66,7 +66,6 @@ def read_bytes(file_path: str) -> bytes:
 
     Returns
         The contents of the file in binary format.
-        :rtype: object
     """
     try:
         with open(file_path, "rb") as file:
@@ -115,19 +114,3 @@ def read_config(config_file) -> dict:
         print(f"config file '{config_file}' not found.")
     except Exception as e:
         print(f"Error reading config file: {str(e)}")
-
-
-def write_config(config_file, config) -> None:
-    """
-    Writes the configuration config to the specified file.
-
-    Parameters:
-        config_file : The path to the config file.
-        config : The configuration config to be written to the file.
-
-    """
-    try:
-        with open(config_file, "w") as file:
-            json.dump(config, file)
-    except Exception as e:
-        print(f"Error writing config file: {str(e)}")

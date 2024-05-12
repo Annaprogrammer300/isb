@@ -11,10 +11,10 @@ def handle_action(action: Action, symmetric: SymmetricEncryption, asymmetric: As
     Handles the specified action by calling the corresponding function.
 
     Parameters:
-        action (Action): The action to be performed.
-        symmetric (SymmetricEncryption): An instance of the SymmetricEncryption class.
-        asymmetric (AsymmetricEncryption): An instance of the AsymmetricEncryption class.
-        config (dict): A dictionary containing the necessary configuration settings.
+        action: The action to be performed.
+        symmetric: An instance of the SymmetricEncryption class.
+        asymmetric: An instance of the AsymmetricEncryption class.
+        config: A dictionary containing the necessary configuration settings.
 
     Returns:
         bytes: The decrypted symmetric key if no decrypted key is returned.
@@ -29,12 +29,12 @@ def handle_action(action: Action, symmetric: SymmetricEncryption, asymmetric: As
         case Action.ENCRYPT:
             symmetric.key_operations(config["symmetric_key"], SerializeMethod.DESERIALIZE_SYMMETRIC_KEY)
             if isinstance(symmetric.key, bytes):
-                symmetric.encrypt(config["data_file"], config["encrypted_file"])
+                symmetric.encrypt(config["data_text"], config["encrypted_text"])
             else:
                 print("Error: Symmetric key is not in bytes format")
         case Action.DECRYPT:
             symmetric.key_operations(config["symmetric_key"], SerializeMethod.DESERIALIZE_SYMMETRIC_KEY)
-            symmetric.decrypt(config["encrypted_file"], config["decrypted_file"])
+            symmetric.decrypt(config["encrypted_text"], config["decrypted_text"])
         case Action.ENCRYPT_SYMMETRIC_KEY:
             symmetric.key_operations(config["symmetric_key"], SerializeMethod.DESERIALIZE_SYMMETRIC_KEY)
             asymmetric.key_operations(config["public_key"], SerializeMethodAsymmetric.DESERIALIZE_PUBLIC_KEY)
@@ -50,3 +50,35 @@ def handle_action(action: Action, symmetric: SymmetricEncryption, asymmetric: As
             return decrypted_symmetric_key
 
 
+def menu():
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-gen', '--generation', help='Starts the key generation mode')
+    group.add_argument('-enc', '--encryption', help='Starts the encryption mode')
+    group.add_argument('-dec', '--decryption', help='Starts the decryption mode')
+    group.add_argument('-enc_sym', '--encryption_symmetric', help='Starts symmetric key encryption mode')
+    group.add_argument('-dec_sym', '--decryption_symmetric', help='Starts symmetric key encryption mode')
+    parser.add_argument("config", type=str, help="Path to the json file with the config")
+
+    args = parser.parse_args()
+    config = read_config(args.config)
+
+    symmetric = SymmetricEncryption()
+    asymmetric = AsymmetricEncryption()
+    match args:
+        case args if args.generation:
+            handle_action(Action.GENERATE_KEYS, symmetric, asymmetric, config)
+        case args if args.encryption:
+            handle_action(Action.ENCRYPT, symmetric, asymmetric, config)
+        case args if args.decryption:
+            handle_action(Action.DECRYPT, symmetric, asymmetric, config)
+        case args if args.encryption_symmetric:
+            handle_action(Action.ENCRYPT_SYMMETRIC_KEY, symmetric, asymmetric, config)
+        case args if args.decryption_symmetric:
+            handle_action(Action.DECRYPT_SYMMETRIC_KEY, symmetric, asymmetric, config)
+        case _:
+            print("The wrong flag is selected")
+
+
+if __name__ == "__main__":
+    menu()
