@@ -95,6 +95,6 @@ def plot_performance(target_hash: str, card_prefixes: List[str], last_digit: int
 if __name__ == "__main__":
     config = read_json("config_card.json")
     number = read_json("card.json")
-    #print(f"The card number is valid: {validate_luhn(number['number'])}")
+    print(f"The card number is valid: {validate_luhn(number['number'])}")
     plot_performance(config["hash"], config["bins"], config["last_numbers"])
     find_card_number(config["hash"], config["bins"], config["last_numbers"])
